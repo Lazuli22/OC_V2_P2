@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from math import *
 from un_livre import infos_book, imprime_infos
 
-# retour la liste des livres d'une catégorie
+# retour la liste des livres d'une catégorie - A ameliorer 
 def livres_categorie(url):
     nbre_livres = 0
     liste_livres = []
