@@ -1,4 +1,5 @@
+ env
+ images
+ donnees
  des_livres.csv
- env/
- requirements.txt
  unLivre.csv
