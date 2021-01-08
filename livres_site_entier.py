@@ -16,4 +16,5 @@ def livres_tout_site(url):
             print(url_categorie)
             imprime_infos(livres_categorie(url_categorie), nom_categorie)
 
+
 livres_tout_site("http://books.toscrape.com/index.html")
