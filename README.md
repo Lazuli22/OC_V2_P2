@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 =======
 # OC_V2_P2 - Projet de scraping du site  "Books to Scrape"
 
@@ -10,4 +9,4 @@ Il est composé de 3 fichiers :
 Pour Scraper l'ensemble du site en vue de produire les fichiers .CSV et collecter les images. 
 lancer la seule commande : 
  python .\livres_site_entier.py
->>>>>>> 37ef60a51e6be53a0e045684bdc6e25fd9618fd8
+
