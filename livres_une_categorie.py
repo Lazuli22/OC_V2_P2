@@ -1,33 +1,45 @@
 import requests
+from math import ceil
 from bs4 import BeautifulSoup
-from math import *
-from un_livre import infos_book, imprime_infos
+from un_livre import (
+    collecter_infos_livre, imprimer_infos_livre, telecharger_image, DIR_IMAGES
+)
 
-# retour la liste des livres d'une catégorie - A ameliorer 
-def livres_categorie(url):
-    nbre_livres = 0
-    liste_livres = []
-    response = requests.get(url)
+
+def collecter_pages_categorie(url_categorie):
+    """return a list of page url of a category """
+    liste_pages_categorie = []
+    response = requests.get(url_categorie)
     if response.ok:
         soup = BeautifulSoup(response.text, "html.parser")
-        nbre_livres = soup.select_one("#default > div > div > div > div > form > strong:nth-child(2)").text
+        nbre_livres = soup.select_one("#default>div>div>div>div>form>strong:nth-child(2)").text
         nbre_pages = ceil(int(nbre_livres)/20)
-        #print(nbre_pages)
-        liste_articles = soup.findAll("article")
-        for i in range(1, len(liste_articles)+1):
-            url_livre = "http://books.toscrape.com/catalogue/" + soup.select_one("#default > div > div > div > div > section > div:nth-child(2) > ol > li:nth-child("+str(i)+") > article > h3 > a")['href'].strip("../../../")
-            liste_livres.append(infos_book(url_livre))
-        if nbre_pages > 1:
-            for i in range(2, nbre_pages+1):
-                nurl = url.replace("index.html", "page-"+str(i)+".html")
-                res = requests.get(nurl)
-                soup2 = BeautifulSoup(res.text, "html.parser")
-                liste_articles = soup2.findAll("article")
-                for i in range(1, len(liste_articles)+1):
-                    url_livre = "http://books.toscrape.com/catalogue/" + soup2.select_one("#default > div > div > div > div > section > div:nth-child(2) > ol > li:nth-child("+str(i)+") > article > h3 > a")['href'].strip("../../../")
-                    liste_livres.append(infos_book(url_livre))
+        liste_pages_categorie = [url_categorie if i == 1 else
+                                 url_categorie.replace("index.html", f"page-{i}.html") for i in range(1, nbre_pages+1)]
+    return liste_pages_categorie
+
+
+def collecter_livres_categorie(liste_pages_categorie):
+    """ return a list of books by category """
+    liste_livres = []
+    infos_livre = ""
+    url_livre = ""
+    for une_url in liste_pages_categorie:
+        response = requests.get(une_url)
+        response.encoding = "utf8"
+        if response.ok:
+            soup = BeautifulSoup(response.text, "html.parser")
+            liste_articles = soup.findAll("article")
+            for i in range(1, len(liste_articles)+1):
+                urlr = soup.select_one(f"#default>div>div>div>div>section>div:nth-child(2)> \
+                ol>li:nth-child({i})>article>h3>a")['href'].strip("../../../")
+                url_livre = "http://books.toscrape.com/catalogue/" + urlr
+                infos_livre = collecter_infos_livre(url_livre)
+                telecharger_image(infos_livre['image_url'], infos_livre['universal_ product_code'])
+                infos_livre["image_url"] = DIR_IMAGES + "/" + infos_livre['universal_ product_code']+".jpeg"
+                liste_livres.append(infos_livre)
     return liste_livres
 
 
-livres_categorie("http://books.toscrape.com/catalogue/category/books/travel_2/index.html")
-#imprime_infos(livres_categorie("http://books.toscrape.com/catalogue/category/books/classics_6/index.html"), 'des_livres')
+collecter_livres_categorie(collecter_pages_categorie("http://books.toscrape.com/catalogue/category/books/mystery_3/index.html"))
+imprimer_infos_livre(collecter_livres_categorie(collecter_pages_categorie("http://books.toscrape.com/catalogue/category/books/mystery_3/index.html")), "des_livres")
