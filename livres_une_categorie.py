@@ -2,7 +2,7 @@ import requests
 from math import ceil
 from bs4 import BeautifulSoup
 from un_livre import (
-    collecter_infos_livre, imprimer_infos_livre, telecharger_image, DIR_IMAGES
+    collecter_infos_livre, telecharger_image, DIR_IMAGES
 )
 
 
@@ -39,7 +39,3 @@ def collecter_livres_categorie(liste_pages_categorie):
                 infos_livre["image_url"] = DIR_IMAGES + "/" + infos_livre['universal_ product_code']+".jpeg"
                 liste_livres.append(infos_livre)
     return liste_livres
-
-
-collecter_livres_categorie(collecter_pages_categorie("http://books.toscrape.com/catalogue/category/books/mystery_3/index.html"))
-imprimer_infos_livre(collecter_livres_categorie(collecter_pages_categorie("http://books.toscrape.com/catalogue/category/books/mystery_3/index.html")), "des_livres")
