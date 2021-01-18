@@ -74,6 +74,7 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
+.vscode/
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -112,6 +113,11 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Resultats du scripts 
+data/
+Resultats.PNG 
+test.py
 
 # Spyder project settings
 .spyderproject
