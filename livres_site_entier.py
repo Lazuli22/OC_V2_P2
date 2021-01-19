@@ -64,7 +64,7 @@ def main():
                         les informations d'un livre ou  \
                         les livres d'une catégorie ou  \
                         Le site dans sa globalité")
-    parser.add_argument('-url', help="Préciser l'url à Scrapper")
+    parser.add_argument('-url', '-u',  help="Préciser l'url à Scrapper")
     args = parser.parse_args()
     port = args.portee
     url_port = args.url
