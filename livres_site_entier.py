@@ -1,4 +1,5 @@
 import requests
+import argparse
 from bs4 import BeautifulSoup
 from un_livre import (
     imprimer_infos_livre, collecter_infos_livre
@@ -29,6 +30,7 @@ def collecter_tout_site(url_site):
     print("nombre total de livres \n :" + str(nbre_livres_site))
 
 
+"""
 def main():
     print("Que souhaitez-vous faire?")
     print("1 - imprimer dans un fichier CSV les informations d'un livre?")
@@ -49,6 +51,29 @@ def main():
         print("les informations de la catégorie demandée sont  dans des_livres.csv")
     elif(choix == 3):
         collecter_tout_site("http://books.toscrape.com/index.html")
+    else:
+        print("Vous n'avez pas choisi d'option correct, veuillez relancer le programme")
+"""
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-scrap', "-s",  dest='portee', required=True,
+                        choices=['book', 'categorie', 'site'],
+                        help="Choisissez la portée du Scrapping. Souhaitez vous scrapper \
+                        les informations d'un livre ou  \
+                        les livres d'une catégorie ou  \
+                        Le site dans sa globalité")
+    parser.add_argument('-url', help="Préciser l'url à Scrapper")
+    args = parser.parse_args()
+    port = args.portee
+    url_port = args.url
+    if port == 'book':
+        imprimer_infos_livre([collecter_infos_livre(url_port)], "monlivre")
+    elif port == 'categorie':
+        imprimer_infos_livre(collecter_livres_categorie(collecter_pages_categorie(url_port)), "des_livres")
+    elif port == 'site':
+        collecter_tout_site(url_port)
     else:
         print("Vous n'avez pas choisi d'option correct, veuillez relancer le programme")
 
