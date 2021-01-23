@@ -114,7 +114,7 @@ ENV/
 env.bak/
 venv.bak/
 
-# Resultats du scripts 
+# Resultats des scripts de scrapping
 data/
 Resultats.PNG 
 test.py

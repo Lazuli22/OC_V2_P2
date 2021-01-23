@@ -12,14 +12,13 @@ Utilisation du fichier requirements.txt en vue de créer l'environnement des lib
 * Pour l'activer, lancer la commande :
     `.\env\Script\activate`
 
-
 ## Le projet est composé de 3 principaux fichiers :
 
 * *un_livre.py* : comporte 3 fonctions "collecter_infos_livre", "imprimer_infos_livre" et "telecharger_image"
 * *livres_une_categorie.py* : comporte 2 fonctions "collecter_pages_categorie",  "collecter_livres_categorie"
 * *livres_site_entier.py* : implemente le scraping du site en entier avec le téléchargement des images des livres
 
-Pour tester, 2 façons de faire 
+Pour tester, 2 façons de faire :
+
  * soit lancer `python livres_site_entier2.py -help` et laissez-vous guider !
  * soit lancer `python livres_site_entier.py`  et laisser-vous guider !
-
