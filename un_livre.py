@@ -13,14 +13,6 @@ def collecter_infos_livre(url):
     dict_infos_book = {}
     response = requests.get(url)
     response.encoding = "utf8"
-    upc = ""
-    title = ""
-    pit = ""
-    pet = ""
-    na = ""
-    pd = ""
-    rr = ""
-    url_img = ""
     if response.ok:
         sp = BeautifulSoup(response.text, "html.parser")
         dict_infos_book['product_page_url'] = url
@@ -44,6 +36,8 @@ def collecter_infos_livre(url):
         dict_infos_book['review_rating'] = rr
         url_img = "http://books.toscrape.com/"+sp.find("img")['src'].strip("../../")
         dict_infos_book['image_url'] = url_img
+    else:
+        print("Informations non récupérées pour le libre dont l'url est : " + url)
     return dict_infos_book
 
 
@@ -65,5 +59,6 @@ def telecharger_image(url, nom_image):
     if not os.path.exists(DIR_IMAGES):
         os.makedirs(DIR_IMAGES)
     response = requests.get(url)
-    with open(DIR_IMAGES + "/" + nom_image + ".jpeg", "wb") as file:
-        file.write(response.content)
+    if response.ok:
+        with open(DIR_IMAGES + "/" + nom_image + ".jpeg", "wb") as file:
+            file.write(response.content)
